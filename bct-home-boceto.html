@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCT — Boceto Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #888; display: flex; justify-content: center; padding: 20px; min-height: 100vh; }
+
+.bct { font-family: 'Poppins', sans-serif; background: #f0f0f0; width: 390px; position: relative; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.4); }
+
+.bct-nav { background: #002060; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; height: 50px; position: relative; z-index: 200; }
+.bct-hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; background: none; border: none; }
+.bct-hamburger span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: all 0.25s; }
+.bct-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.bct-hamburger.open span:nth-child(2) { opacity: 0; }
+.bct-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.bct-logo { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 700; color: #FFD700; letter-spacing: 1px; position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; }
+.bct-nav-right { display: flex; gap: 8px; align-items: center; }
+.bct-nav-right svg { width: 18px; height: 18px; stroke: #fff; fill: none; stroke-width: 2; cursor: pointer; }
+
+.bct-sidemenu { position: fixed; top: 0; left: -280px; width: 260px; height: 100%; background: #001540; z-index: 300; transition: left 0.28s cubic-bezier(0.4,0,0.2,1); padding-top: 60px; box-shadow: 4px 0 20px rgba(0,0,0,0.4); }
+.bct-sidemenu.open { left: 0; }
+.bct-sidemenu-header { position: absolute; top: 0; left: 0; right: 0; height: 50px; display: flex; align-items: center; padding: 0 16px; border-bottom: 1px solid rgba(255,215,0,0.15); }
+.bct-sidemenu-logo { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 700; color: #FFD700; }
+.bct-sidemenu ul { list-style: none; padding: 8px 0; }
+.bct-sidemenu ul li a { display: flex; align-items: center; gap: 10px; padding: 12px 20px; font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 500; color: rgba(255,255,255,0.85); text-decoration: none; border-left: 3px solid transparent; transition: all 0.15s; text-transform: uppercase; }
+.bct-sidemenu ul li a:hover { color: #FFD700; border-left-color: #FFD700; background: rgba(255,215,0,0.05); }
+.sm-dot { width: 5px; height: 5px; background: #FFD700; border-radius: 50%; opacity: 0.45; flex-shrink: 0; }
+.sm-div { height: 1px; background: rgba(255,255,255,0.07); margin: 6px 20px; }
+
+.bct-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0); z-index: 250; pointer-events: none; transition: background 0.28s; }
+.bct-overlay.open { background: rgba(0,0,0,0.5); pointer-events: all; }
+
+/* HERO */
+.bct-hero { width: 100%; position: relative; cursor: pointer; overflow: hidden; }
+.bct-hero-ph { width: 100%; height: 240px; position: relative; display: flex; align-items: center; justify-content: center; }
+.bct-hero-ph svg.bg-icon { opacity: 0.07; width: 90px; height: 90px; }
+.bct-hero-deco { position: absolute; top: 0; right: 0; width: 150px; height: 240px; background: linear-gradient(135deg, transparent 50%, rgba(255,215,0,0.06) 50%); }
+
+.bct-hero-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.93) 0%, rgba(0,0,0,0.45) 55%, transparent 100%); padding: 28px 14px 14px; }
+.bct-hero-cat { font-family: 'Oswald', sans-serif; font-size: 9px; font-weight: 700; color: #FFD700; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 7px; }
+.bct-hero-title { font-family: 'Oswald', sans-serif; font-size: 21px; font-weight: 700; color: #fff; line-height: 1.2; }
+.bct-hero-meta { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 7px; }
+
+/* LISTA */
+.bct-list { background: #fff; }
+.bct-item { display: flex; align-items: center; border-bottom: 1px solid #efefef; cursor: pointer; transition: background 0.12s; min-height: 82px; }
+.bct-item:hover { background: #fafafa; }
+.bct-item:last-child { border-bottom: none; }
+
+.bct-thumb { width: 108px; min-width: 108px; height: 82px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.bct-thumb svg { opacity: 0.2; width: 22px; height: 22px; stroke: #002060; fill: none; stroke-width: 1.5; }
+
+.bct-body { padding: 10px 12px; flex: 1; min-width: 0; }
+.bct-tag { font-family: 'Oswald', sans-serif; font-size: 7.5px; font-weight: 700; color: #FFD700; background: #002060; padding: 2px 5px; letter-spacing: 1px; text-transform: uppercase; display: inline-block; margin-bottom: 5px; }
+.bct-title { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; color: #111; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.bct-meta { font-size: 10px; color: #bbb; margin-top: 4px; }
+
+.bct-gap { height: 8px; background: #f0f0f0; }
+
+/* FOOTER */
+.bct-footer { background: #001540; padding: 26px 18px 0; margin-top: 8px; }
+.bct-footer-logo { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 700; color: #FFD700; text-align: center; letter-spacing: 1.5px; margin-bottom: 5px; }
+.bct-footer-tag { font-size: 10px; color: rgba(255,255,255,0.35); text-align: center; margin-bottom: 20px; }
+.bct-social { display: flex; justify-content: center; gap: 12px; margin-bottom: 22px; }
+.bct-social a { width: 34px; height: 34px; border: 1.5px solid rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: all 0.15s; }
+.bct-social a:hover { border-color: #FFD700; background: rgba(255,215,0,0.08); }
+.bct-social svg { width: 15px; height: 15px; fill: #fff; }
+.bct-footer-line { height: 1px; background: rgba(255,255,255,0.07); margin-bottom: 16px; }
+.bct-footer-links { display: flex; flex-direction: column; margin-bottom: 18px; }
+.bct-footer-links a { font-size: 11px; color: rgba(255,255,255,0.5); text-decoration: none; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; align-items: center; gap: 8px; transition: color 0.15s; }
+.bct-footer-links a:last-child { border-bottom: none; }
+.bct-footer-links a:hover { color: #FFD700; }
+.bct-footer-links a::before { content: ''; width: 4px; height: 4px; background: #FFD700; border-radius: 50%; opacity: 0.4; flex-shrink: 0; }
+.bct-copyright { background: #000d26; padding: 11px 18px; text-align: center; font-size: 9.5px; color: rgba(255,255,255,0.22); line-height: 1.7; }
+
+/* Colores thumbs */
+.t1 { background: linear-gradient(135deg, #dce5f0, #c0d0e8); }
+.t2 { background: linear-gradient(135deg, #e8dff0, #c8b8e0); }
+.t3 { background: linear-gradient(135deg, #dff0e0, #b8d8bc); }
+.t4 { background: linear-gradient(135deg, #f0e8d8, #e0d0b0); }
+.t5 { background: linear-gradient(135deg, #f0d8d8, #e0b8b8); }
+.t6 { background: linear-gradient(135deg, #d8e8f0, #b0cce0); }
+.t7 { background: linear-gradient(135deg, #e8f0d8, #c8e0b0); }
+.t8 { background: linear-gradient(135deg, #f0dce8, #e0b8d0); }
+</style>
+</head>
+<body>
+
+<div class="bct">
+  <div class="bct-overlay" id="ov" onclick="closeMenu()"></div>
+
+  <div class="bct-sidemenu" id="sm">
+    <div class="bct-sidemenu-header"><span class="bct-sidemenu-logo">BOCA CONTRA TODOS</span></div>
+    <ul>
+      <li><a href="#"><span class="sm-dot"></span>Últimas noticias</a></li>
+      <li><a href="#"><span class="sm-dot"></span>Copa Libertadores</a></li>
+      <li><a href="#"><span class="sm-dot"></span>Torneo Apertura</a></li>
+      <li><a href="#"><span class="sm-dot"></span>Mercado de pases</a></li>
+      <div class="sm-div"></div>
+      <li><a href="#"><span class="sm-dot"></span>Plantel 2026</a></li>
+      <li><a href="#"><span class="sm-dot"></span>Videos</a></li>
+      <li><a href="#"><span class="sm-dot"></span>Canciones</a></li>
+      <li><a href="#"><span class="sm-dot"></span>Fotos</a></li>
+      <div class="sm-div"></div>
+      <li><a href="#"><span class="sm-dot"></span>Quiénes somos</a></li>
+    </ul>
+  </div>
+
+  <nav class="bct-nav">
+    <button class="bct-hamburger" id="hb" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    <span class="bct-logo">BOCA CONTRA TODOS</span>
+    <div class="bct-nav-right">
+      <svg viewBox="0 0 24 24"><path d="M21 14a9 9 0 1 1-9-11 7 7 0 0 0 9 11z"/></svg>
+      <svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="7"/><path d="m15 15 6 6"/></svg>
+    </div>
+  </nav>
+
+  <!-- HERO 1 -->
+  <div class="bct-hero">
+    <div class="bct-hero-ph" style="background:linear-gradient(160deg,#001a4d,#002f8a,#001040);">
+      <svg class="bg-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#fff" stroke-width="1"/><circle cx="8.5" cy="8.5" r="1.5" stroke="#fff" stroke-width="1"/><path d="M21 15l-5-5L5 21" stroke="#fff" stroke-width="1"/></svg>
+      <div class="bct-hero-deco"></div>
+    </div>
+    <div class="bct-hero-overlay">
+      <span class="bct-hero-cat">🔴 Torneo Apertura 2026</span>
+      <div class="bct-hero-title">OFICIAL: Boca goleó a Defensa y Justicia y clasificó a los playoffs del Apertura</div>
+      <div class="bct-hero-meta">Hace 1 hora · Redacción BCT</div>
+    </div>
+  </div>
+
+  <!-- LISTA 1 -->
+  <div class="bct-list">
+    <div class="bct-item">
+      <div class="bct-thumb t1"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+      <div class="bct-body"><span class="bct-tag">Mercado de pases</span><div class="bct-title">Oriana Sabatini ilusiona a los hinchas con la posible llegada de Paulo Dybala a Boca</div><div class="bct-meta">Hace 2 h</div></div>
+    </div>
+    <div class="bct-item">
+      <div class="bct-thumb t2"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+      <div class="bct-body"><span class="bct-tag">Lesiones</span><div class="bct-title">Se confirmó la lesión de Ander Herrera: cuánto tiempo estará afuera del equipo</div><div class="bct-meta">Hace 3 h</div></div>
+    </div>
+    <div class="bct-item">
+      <div class="bct-thumb t3"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+      <div class="bct-body"><span class="bct-tag">Análisis</span><div class="bct-title">Úbeda analizó la goleada ante Defensa y ya piensa en Cruzeiro por Libertadores</div><div class="bct-meta">Hace 4 h</div></div>
+    </div>
+    <div class="bct-item">
+      <div class="bct-thumb t4"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+      <div class="bct-body"><span class="bct-tag">Apertura 2026</span><div class="bct-title">Cómo quedó Boca en la tabla de posiciones tras la goleada sobre Defensa en Varela</div><div class="bct-meta">Hace 5 h</div></div>
+    </div>
+  </div>
+
+  <div class="bct-gap"></div>
+
+  <!-- HERO 2 -->
+  <div class="bct-hero">
+    <div class="bct-hero-ph" style="background:linear-gradient(160deg,#1a0040,#4a0088,#0a0030);">
+      <svg class="bg-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#fff" stroke-width="1"/><circle cx="8.5" cy="8.5" r="1.5" stroke="#fff" stroke-width="1"/><path d="M21 15l-5-5L5 21" stroke="#fff" stroke-width="1"/></svg>
+      <div style="position:absolute;top:0;left:0;width:150px;height:240px;background:linear-gradient(225deg,transparent 50%,rgba(255,215,0,0.06) 50%);"></div>
+    </div>
+    <div class="bct-hero-overlay">
+      <span class="bct-hero-cat">⚽ Copa Libertadores</span>
+      <div class="bct-hero-title">Boca recibe a Cruzeiro en La Bombonera con la clasificación como objetivo</div>
+      <div class="bct-hero-meta">Hace 30 min · Redacción BCT</div>
+    </div>
+  </div>
+
+  <!-- LISTA 2 -->
+  <div class="bct-list">
+    <div class="bct-item">
+      <div class="bct-thumb t5"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+      <div class="bct-body"><span class="bct-tag">Formaciones</span><div class="bct-title">El equipo confirmado de Boca para enfrentar a Cruzeiro en la Copa Libertadores</div><div class="bct-meta">Hace 45 min</div></div>
+    </div>
+    <div class="bct-item">
+      <div class="bct-thumb t6"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+      <div class="bct-body"><span class="bct-tag">Estadísticas</span><div class="bct-title">Los números de Boca en la Copa Libertadores 2026: goles, puntos y posición en el grupo</div><div class="bct-meta">Hace 1 h</div></div>
+    </div>
+    <div class="bct-item">
+      <div class="bct-thumb t7"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+      <div class="bct-body"><span class="bct-tag">Historia</span><div class="bct-title">Boca vs Cruzeiro: el historial completo de sus enfrentamientos en Copa Libertadores</div><div class="bct-meta">Hace 2 h</div></div>
+    </div>
+    <div class="bct-item">
+      <div class="bct-thumb t8"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+      <div class="bct-body"><span class="bct-tag">TV y horario</span><div class="bct-title">A qué hora juega Boca vs Cruzeiro y por qué canal verlo en Argentina</div><div class="bct-meta">Hace 3 h</div></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bct-footer">
+    <div class="bct-footer-logo">BOCA CONTRA TODOS</div>
+    <div class="bct-footer-tag">El fútbol de Boca, sin filtro</div>
+    <div class="bct-social">
+      <a href="#"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.975.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.975-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.975-.975-1.246-2.242-1.308-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.975-.975 2.242-1.246 3.608-1.308C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.014 7.052.072 5.197.157 3.355.673 2.014 2.014.673 3.355.157 5.197.072 7.052.014 8.332 0 8.741 0 12c0 3.259.014 3.668.072 4.948.085 1.855.601 3.697 1.942 5.038 1.341 1.341 3.183 1.857 5.038 1.942C8.332 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 1.855-.085 3.697-.601 5.038-1.942 1.341-1.341 1.857-3.183 1.942-5.038.058-1.28.072-1.689.072-4.948 0-3.259-.014-3.668-.072-4.948-.085-1.855-.601-3.697-1.942-5.038C20.645.673 18.803.157 16.948.072 15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+      <a href="#"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      <a href="#"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
+      <a href="#"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.259 5.629 5.905-5.629zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="#"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+    </div>
+    <div class="bct-footer-line"></div>
+    <div class="bct-footer-links">
+      <a href="#">Quiénes somos</a>
+      <a href="#">Contacto</a>
+      <a href="#">Política de privacidad</a>
+      <a href="#">Aviso legal</a>
+    </div>
+  </footer>
+  <div class="bct-copyright">© 2026 Boca Contra Todos · Todos los derechos reservados<br>Sitio no oficial · No tiene relación con el Club Atlético Boca Juniors</div>
+</div>
+
+<script>
+function toggleMenu() {
+  document.getElementById('sm').classList.toggle('open');
+  document.getElementById('ov').classList.toggle('open');
+  document.getElementById('hb').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('sm').classList.remove('open');
+  document.getElementById('ov').classList.remove('open');
+  document.getElementById('hb').classList.remove('open');
+}
+</script>
+</body>
+</html>
